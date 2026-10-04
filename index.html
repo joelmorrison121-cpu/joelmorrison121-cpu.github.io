@@ -5,22 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#100f0c">
   <meta name="description" content="Joel Morrison is a DCU computer science student exploring web engineering and practical AI tools. Explore his ideas, skills and experience.">
+  <link rel="canonical" href="https://joelmorrison121-cpu.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Joel Morrison — Computer Science Portfolio">
   <meta property="og:description" content="An evolving portfolio of ideas, skills and experience by DCU computer science student Joel Morrison.">
+  <meta property="og:url" content="https://joelmorrison121-cpu.github.io/">
   <meta property="og:site_name" content="Joel Morrison">
   <meta name="twitter:card" content="summary">
   <title>Joel Morrison — Computer Science Portfolio</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon-iMQWNcjX.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="main.js" defer></script>
+  <script type="module" crossorigin src="./assets/index-DKCfNWFf.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CJMPtNXf.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <canvas class="ambient-canvas" id="ambient-canvas" aria-hidden="true"></canvas>
+  <div id="dither-root" aria-hidden="true"></div>
 
   <header class="site-header" id="top">
     <div class="header-inner wrap">
@@ -41,14 +43,19 @@
       </details>
     </div>
   </header>
+  <div id="staggered-menu-root"></div>
 
   <main id="main">
     <section class="hero wrap" aria-labelledby="hero-title">
       <div class="hero-content">
-        <p class="eyebrow hero-eyebrow"><span class="eyebrow-line" aria-hidden="true"></span> PORTFOLIO / 2026 <span class="eyebrow-dot" aria-hidden="true">•</span> DUBLIN, IRELAND</p>
+        <p class="eyebrow hero-eyebrow"><span class="eyebrow-line" aria-hidden="true"></span><span class="type-slot" id="hero-type-kicker">Dublin · Software</span><span class="eyebrow-dot" aria-hidden="true">•</span><span class="hero-location">DUBLIN, IRELAND</span></p>
         <div class="hero-layout">
           <div class="hero-main">
-            <h1 id="hero-title">Joel <em>Morrison.</em></h1>
+            <h1 id="hero-title" class="tech-heading">
+              <span class="hero-name-line first"><span class="name-fallback">Joel</span><span class="tech-mount" id="tech-first" aria-hidden="true"></span></span>
+              <span class="hero-name-line last"><span class="name-fallback">Morrison.</span><span class="tech-mount" id="tech-last" aria-hidden="true"></span></span>
+            </h1>
+            <p class="hero-meta"><span class="type-slot" id="hero-type-meta">DCU · Redbrick · Web &amp; AI</span></p>
             <p class="hero-subline">Computer science student at Dublin City University, exploring web engineering and practical AI tools.</p>
             <div class="hero-actions">
               <a class="button button-primary" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
@@ -112,7 +119,19 @@
     </section>
 
     <section class="section contact-section" id="contact" aria-labelledby="contact-title">
-      <div class="wrap contact-wrap"><p class="section-index">05 / CONTACT</p><div class="contact-content"><h2 id="contact-title">Let's make<br><em>something matter.</em></h2><p>Contact details are being updated. My email and public profiles will appear here soon.</p><div class="contact-status"><span class="status-icon" aria-hidden="true">+</span><span>Contact details coming soon</span></div></div><span class="contact-asterisk" aria-hidden="true">✳</span></div>
+      <div class="wrap contact-wrap">
+        <p class="section-index">05 / CONTACT</p>
+        <div class="contact-content">
+          <h2 id="contact-title">Let's make<br><em>something matter.</em></h2>
+          <p>Have an idea, an opportunity, or just want to say hello? Reach me through whichever channel works best for you.</p>
+          <div class="contact-methods" aria-label="Contact Joel Morrison">
+            <a href="mailto:joelmorrison121@gmail.com"><span><small>EMAIL</small>joelmorrison121@gmail.com</span><span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/joelmorrison121-cpu" target="_blank" rel="noopener noreferrer"><span><small>GITHUB</small>github.com/joelmorrison121-cpu</span><span aria-hidden="true">↗</span></a>
+            <a href="https://www.linkedin.com/in/joel-morrison-16a304389/" target="_blank" rel="noopener noreferrer"><span><small>LINKEDIN</small>linkedin.com/in/joel-morrison-16a304389</span><span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <span class="contact-asterisk" aria-hidden="true">✳</span>
+      </div>
     </section>
   </main>
 

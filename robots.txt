@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://joelmorrison121-cpu.github.io/sitemap.xml
