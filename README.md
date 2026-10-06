@@ -1,9 +1,9 @@
-# Joel Morrison portfolio — published site
+# Joel Morrison portfolio
 
-This public repository serves **https://joelmorrison121-cpu.github.io/** using GitHub Pages from the root of `main`. It contains the compiled static output of Joel’s separately managed portfolio source, not its editable React component files. The initial refreshed deployment was built from the Manus project at commit `fc9b38eacc26ee0258bc0e738478dfec191e490d`.
+The live portfolio is a plain static site at <https://joelmorrison121-cpu.github.io/>. GitHub Pages serves the files in this repository's `main` branch from its root.
 
-## Updating the site
+## Edit the site directly
 
-After changing the source, run `pnpm install --frozen-lockfile && pnpm build` in the source project. Copy **the contents of its `dist/` folder**, including hidden `.nojekyll`, into the root of a clone of this repository; replace the old `index.html` and `assets/` files. Then `git add -A`, `git commit -m "Update portfolio"` and `git push origin main`. GitHub Pages builds and publishes from `main` automatically. Do not upload `site/src/`, `node_modules/` or the raw Vite `site/index.html` directly—those are source files, not the production site. Preserve any independent changes to this repository before copying.
+Open `index.html`, `styles.css` and `main.js` in any text editor. You may also open `index.html` directly in a browser to preview it locally. There is no build step, Vite, package installation or framework. The HTML links to the CSS and JavaScript with relative paths.
 
-The portfolio uses adapted components from [React Bits](https://reactbits.dev/). This repository is intentionally public because it hosts the website. It is separate from the private, currently empty repository named `joel-morrison-portfolio`.
+`favicon.svg`, `robots.txt`, `sitemap.xml`, `manus-routes.json` and `.nojekyll` are small static companion files. Keep them beside `index.html` when copying or uploading the site. To publish edits, commit and push the files to `main`; Pages updates the site automatically.
