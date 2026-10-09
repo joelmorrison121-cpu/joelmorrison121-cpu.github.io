@@ -22,41 +22,102 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <div id="dither-root" aria-hidden="true"></div>
+  <div id="top" aria-hidden="true"></div>
 
-  <header class="site-header" id="top">
+  <!-- Decorative canvases never intercept mouse clicks or keyboard focus. -->
+  <div id="dither-root" aria-hidden="true">
+    <canvas id="wave-canvas"></canvas>
+  </div>
+  <canvas id="click-spark-canvas" aria-hidden="true"></canvas>
+
+  <!-- This header remains the navigation if JavaScript is disabled. -->
+  <header class="site-header">
     <div class="header-inner wrap">
-      <a class="wordmark" href="#top" aria-label="Joel Morrison, back to top"><span class="wordmark-mark" aria-hidden="true">JM<span class="mark-period">.</span></span><span>Joel <em>Morrison</em></span></a>
+      <a class="wordmark" href="#top" aria-label="Joel Morrison, back to top">
+        <span class="wordmark-mark" aria-hidden="true">JM<span>.</span></span>
+        <span>Joel <em>Morrison</em></span>
+      </a>
       <nav class="desktop-nav" aria-label="Primary navigation">
-        <a href="#about">About</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#contact">Contact <span aria-hidden="true">↗</span></a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact ↗</a>
       </nav>
       <details class="mobile-nav">
-        <summary aria-label="Toggle navigation"><span class="menu-label">Menu</span><span class="menu-icon" aria-hidden="true"><i></i><i></i></span></summary>
-        <nav class="mobile-nav-panel" aria-label="Mobile navigation">
-          <a href="#about"><span>01</span>About</a>
-          <a href="#projects"><span>02</span>Projects</a>
-          <a href="#skills"><span>03</span>Skills</a>
-          <a href="#experience"><span>04</span>Experience</a>
-          <a href="#contact"><span>05</span>Contact</a>
-          <p>Joel Morrison <span aria-hidden="true">·</span> Dublin, Ireland</p>
+        <summary>Menu <span aria-hidden="true">+</span></summary>
+        <nav aria-label="Mobile navigation">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
         </nav>
       </details>
     </div>
   </header>
-  <div id="staggered-menu-root"></div>
+
+  <!-- Menu links are ordinary HTML: edit them here, not inside a JS template. -->
+  <div id="staggered-menu-root" hidden>
+    <div class="staggered-menu-wrapper" data-open="false">
+      <div class="menu-scrim" aria-hidden="true"></div>
+      <div class="sm-prelayers" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <header class="staggered-menu-header">
+        <a class="sm-logo wordmark" href="#top" aria-label="Joel Morrison, back to top">
+          <span class="wordmark-mark" aria-hidden="true">JM<span>.</span></span>
+          <span>Joel <em>Morrison</em></span>
+        </a>
+        <span class="header-context" aria-hidden="true">PORTFOLIO <span>2026</span></span>
+        <button class="sm-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="staggered-menu-panel">
+          <span class="sm-toggle-text" aria-hidden="true">
+            <span class="sm-toggle-text-inner"><span>Menu</span><span>Close</span></span>
+          </span>
+          <span class="sm-toggle-icon" aria-hidden="true"><i></i><i></i></span>
+        </button>
+      </header>
+      <nav class="staggered-menu-panel" id="staggered-menu-panel" aria-label="Main menu" aria-hidden="true" inert>
+        <div class="sm-panel-inner">
+          <p class="sm-panel-title">The index <span aria-hidden="true">↙</span></p>
+          <ol class="sm-panel-list">
+            <li><a class="sm-panel-item" href="#about"><span class="sm-panel-item-label">About</span><span class="sm-panel-number">01</span></a></li>
+            <li><a class="sm-panel-item" href="#projects"><span class="sm-panel-item-label">Projects</span><span class="sm-panel-number">02</span></a></li>
+            <li><a class="sm-panel-item" href="#skills"><span class="sm-panel-item-label">Skills</span><span class="sm-panel-number">03</span></a></li>
+            <li><a class="sm-panel-item" href="#experience"><span class="sm-panel-item-label">Experience</span><span class="sm-panel-number">04</span></a></li>
+            <li><a class="sm-panel-item" href="#contact"><span class="sm-panel-item-label">Contact</span><span class="sm-panel-number">05</span></a></li>
+          </ol>
+          <div class="sm-socials">
+            <p class="sm-socials-title">A conversation starts here</p>
+            <ul>
+              <li><a href="mailto:joelmorrison121@gmail.com">Email ↗</a></li>
+              <li><a href="https://github.com/joelmorrison121-cpu" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+              <li><a href="https://www.linkedin.com/in/joel-morrison-16a304389/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+            </ul>
+            <p class="sm-signature">Joel Morrison <span>— Dublin, Ireland</span></p>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
 
   <main id="main">
+    <!-- HERO: the name and all content stay readable without JavaScript. -->
     <section class="hero wrap" aria-labelledby="hero-title">
       <div class="hero-content">
-        <p class="eyebrow hero-eyebrow"><span class="eyebrow-line" aria-hidden="true"></span><span class="type-slot" id="hero-type-kicker">Dublin · Software</span><span class="eyebrow-dot" aria-hidden="true">•</span><span class="hero-location">DUBLIN, IRELAND</span></p>
+        <div class="hero-topline">
+          <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span><span class="type-slot" id="hero-type-kicker">Dublin · Software</span></p>
+          <span class="hero-coordinate">53.35° N / 6.26° W</span>
+        </div>
         <div class="hero-layout">
           <div class="hero-main">
-            <h1 id="hero-title" class="tech-heading">
-              <span class="hero-name-line first"><span class="name-fallback">Joel</span><span class="tech-mount" id="tech-first" aria-hidden="true"></span></span>
-              <span class="hero-name-line last"><span class="name-fallback">Morrison.</span><span class="tech-mount" id="tech-last" aria-hidden="true"></span></span>
+            <h1 id="hero-title" class="tech-heading" aria-label="Joel Morrison.">
+              <span class="hero-name-line first"><span class="name-fallback">Joel</span></span>
+              <span class="hero-name-line last"><span class="name-fallback">Morrison<span class="name-period">.</span></span></span>
             </h1>
             <p class="hero-meta"><span class="type-slot" id="hero-type-meta">DCU · Redbrick · Web &amp; AI</span></p>
-            <p class="hero-subline">Computer science student at Dublin City University, exploring web engineering and practical AI tools.</p>
+            <p class="hero-subline">Curiosity into code.<br>Ideas into <em>useful things.</em></p>
+            <p class="hero-description">Computer science student at Dublin City University, exploring web engineering and practical AI tools.</p>
             <div class="hero-actions">
               <a class="button button-primary" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
               <a class="text-link" href="#about">A little about me <span aria-hidden="true">↗</span></a>
@@ -64,77 +125,150 @@
           </div>
           <div class="hero-aside">
             <div class="folder-scene">
+              <span class="orbit orbit-one" aria-hidden="true"></span>
+              <span class="orbit orbit-two" aria-hidden="true"></span>
+              <span class="folder-annotation" aria-hidden="true">JM / ARCHIVE<br>01 — IN PROGRESS</span>
               <details class="folder" id="project-folder">
                 <summary aria-label="Open portfolio folder">
-                  <span class="folder-back" aria-hidden="true"><span class="folder-tab"></span><span class="folder-sheet sheet-one"></span><span class="folder-sheet sheet-two"></span><span class="folder-sheet sheet-three"></span><span class="folder-front"></span></span>
+                  <span class="folder-back" aria-hidden="true">
+                    <span class="folder-tab"></span>
+                    <span class="folder-sheet sheet-one"></span>
+                    <span class="folder-sheet sheet-two"></span>
+                    <span class="folder-sheet sheet-three"></span>
+                    <span class="folder-front"><span>THE FILES <span>↗</span></span></span>
+                  </span>
                 </summary>
-                <div class="folder-contents"><a href="#projects">Selected work ↗</a><a href="#skills">The toolkit ↗</a><a href="#contact">Get in touch ↗</a></div>
+                <div class="folder-contents">
+                  <a href="#projects">Selected work ↗</a>
+                  <a href="#skills">The toolkit ↗</a>
+                  <a href="#contact">Get in touch ↗</a>
+                </div>
               </details>
-              <p class="folder-caption">THE FILES <span aria-hidden="true">/</span> CLICK TO OPEN</p>
+              <p class="folder-caption"><span aria-hidden="true">+</span> OPEN TO EXPLORE</p>
             </div>
-            <div class="hero-note"><span class="note-index">01 / INTRODUCTION</span><p>Building carefully.<br><em>Learning in public.</em></p></div>
+            <div class="hero-note">
+              <span class="note-index">A WORK IN PROGRESS</span>
+              <p>Building carefully.<br><em>Learning in public.</em></p>
+            </div>
           </div>
         </div>
       </div>
-      <a class="scroll-cue" href="#about"><span class="scroll-rule" aria-hidden="true"></span> Scroll to discover</a>
+      <div class="hero-bottomline">
+        <a class="scroll-cue" href="#about"><span class="scroll-rule" aria-hidden="true"></span> Scroll to discover</a>
+        <span class="interaction-note">MOVE TO DISTURB THE WAVES · CLICK TO SPARK</span>
+        <span class="edition-label">PERSONAL / 001</span>
+      </div>
     </section>
+
+    <div class="discipline-ribbon" aria-label="Exploring web, code and practical AI">
+      <div class="wrap"><span>WEB ENGINEERING</span><span aria-hidden="true">✳</span><span>PRACTICAL AI</span><span aria-hidden="true">✳</span><span>THOUGHTFUL INTERFACES</span></div>
+    </div>
 
     <section class="section about-section" id="about" aria-labelledby="about-title">
       <div class="wrap">
-        <div class="section-heading"><p class="section-index">01 / ABOUT</p><div><h2 id="about-title">Curious by nature.<br><em>Practical by design.</em></h2><p class="heading-intro">A little context behind the code.</p></div></div>
+        <div class="section-heading">
+          <p class="section-index"><span>01</span> / ABOUT</p>
+          <div><h2 id="about-title">Curious by nature.<br><em>Practical by design.</em></h2><p class="heading-intro">A little context behind the code.</p></div>
+        </div>
         <div class="about-grid">
-          <div class="about-copy"><p class="large-copy">I’m a Computer Science student at <strong>Dublin City University</strong>, exploring web engineering and practical AI tooling — the kind of software people actually open twice.</p><p>Outside lectures I spend time with Redbrick, DCU’s networking society, picking up the unglamorous skills that make systems reliable: collaboration, debugging under pressure, and shipping something that works.</p><p>Lately I’m into clean interfaces, small well-made tools, and the overlap between product sense and code. I like projects that start as a question and end as something a friend can use.</p></div>
-          <dl class="facts"><div><dt>Currently</dt><dd>Computer Science at DCU</dd></div><div><dt>Community</dt><dd>Redbrick Society</dd></div><div><dt>Focus</dt><dd>Web, AI tools &amp; developer experience</dd></div><div><dt>Based in</dt><dd>Dublin, Ireland</dd></div></dl>
+          <div class="about-copy">
+            <p class="large-copy">I’m a Computer Science student at <strong>Dublin City University</strong>, exploring web engineering and practical AI tooling — the kind of software people actually open twice.</p>
+            <p>Outside lectures I spend time with Redbrick, DCU’s networking society, picking up the unglamorous skills that make systems reliable: collaboration, debugging under pressure, and shipping something that works.</p>
+            <p>Lately I’m into clean interfaces, small well-made tools, and the overlap between product sense and code. I like projects that start as a question and end as something a friend can use.</p>
+          </div>
+          <dl class="facts">
+            <div><dt>Currently</dt><dd>Computer Science at DCU</dd></div>
+            <div><dt>Community</dt><dd>Redbrick Society</dd></div>
+            <div><dt>Focus</dt><dd>Web, AI tools &amp; developer experience</dd></div>
+            <div><dt>Based in</dt><dd>Dublin, Ireland</dd></div>
+          </dl>
         </div>
       </div>
     </section>
 
     <section class="section projects-section" id="projects" aria-labelledby="projects-title">
       <div class="wrap">
-        <div class="section-heading"><p class="section-index">02 / SELECTED WORK</p><div><h2 id="projects-title">Ideas becoming<br><em>useful things.</em></h2><p class="heading-intro">A space for work in progress and projects worth sharing. This first piece is a concept until a build and real links are ready.</p></div></div>
+        <div class="section-heading">
+          <p class="section-index"><span>02</span> / SELECTED WORK</p>
+          <div><h2 id="projects-title">Ideas becoming<br><em>useful things.</em></h2><p class="heading-intro">One idea at a time. A space for experiments and the work that follows.</p></div>
+        </div>
         <article class="featured-project" aria-labelledby="quiz-title">
           <div class="project-art" role="img" aria-label="Illustrative quiz interface concept, not a screenshot of a working product">
             <span class="art-topline"><span>JM / LAB</span><span>001 — CONCEPT</span></span>
-            <div class="quiz-window"><div class="quiz-window-head"><span>QUIZ / 01</span><span>◒ &nbsp; 00:24</span></div><div class="quiz-window-body"><span class="quiz-progress">QUESTION 03 OF 10</span><p>What will you<br><em>build next?</em></p><span class="quiz-answer">A / Something useful <span>↗</span></span><span class="quiz-answer muted-answer">B / Something thoughtful</span></div></div>
+            <div class="quiz-window">
+              <div class="quiz-window-head"><span>QUIZ / 01</span><span>◒ &nbsp; 00:24</span></div>
+              <div class="quiz-window-body">
+                <span class="quiz-progress">QUESTION 03 OF 10</span>
+                <p>What will you<br><em>build next?</em></p>
+                <span class="quiz-answer">A / Something useful <span>↗</span></span>
+                <span class="quiz-answer muted-answer">B / Something thoughtful</span>
+              </div>
+            </div>
             <span class="art-bottomline">INTERFACE STUDY <span aria-hidden="true">✳</span></span>
           </div>
-          <div class="project-details"><p class="project-state"><span class="state-dot" aria-hidden="true"></span> CONCEPT / IN PROGRESS</p><span class="project-number">01 / 01</span><h3 id="quiz-title">Quiz App<span class="title-period">.</span></h3><p class="project-description">An idea for a React quiz app with timed rounds, instant feedback and a clean score recap. The visual shown here is an illustrative concept, not a product screenshot.</p><ul class="tag-list" aria-label="Technologies listed in original draft"><li>React</li><li>JavaScript</li><li>HTML / CSS</li></ul><p class="project-note">Demo and source links coming when available.</p></div>
+          <div class="project-details">
+            <p class="project-state"><span class="state-dot" aria-hidden="true"></span> CONCEPT / IN PROGRESS</p>
+            <span class="project-number">01 / 01</span>
+            <h3 id="quiz-title">Quiz App<span class="title-period">.</span></h3>
+            <p class="project-description">An idea for a React quiz app with timed rounds, instant feedback and a clean score recap. The visual shown here is an illustrative concept, not a product screenshot.</p>
+            <ul class="tag-list" aria-label="Planned technologies"><li>React</li><li>JavaScript</li><li>HTML / CSS</li></ul>
+            <p class="project-note">Demo and source links coming when available.</p>
+          </div>
         </article>
-        <div class="project-endnote"><span>MORE WORK TO COME</span><p>More projects will join this space as they’re ready.</p></div>
+        <div class="project-endnote"><span>THE NEXT CHAPTER</span><p>More projects will join this space as they’re ready.</p><span aria-hidden="true">↗</span></div>
       </div>
     </section>
 
     <section class="section skills-section" id="skills" aria-labelledby="skills-title">
       <div class="wrap">
-        <div class="section-heading"><p class="section-index">03 / TOOLKIT</p><div><h2 id="skills-title">Tools for making<br><em>things work.</em></h2><p class="heading-intro">A snapshot of the tools and technologies I’m exploring.</p></div></div>
-        <div class="skills-grid"><article><span class="skill-index">01</span><h3>Languages</h3><p>Python <span>·</span> JavaScript <span>·</span> HTML &amp; CSS <span>·</span> SQL</p></article><article><span class="skill-index">02</span><h3>Frameworks &amp; APIs</h3><p>React <span>·</span> Node.js <span>·</span> Flask <span>·</span> REST APIs</p></article><article><span class="skill-index">03</span><h3>Everyday tools</h3><p>Git &amp; GitHub <span>·</span> VS Code <span>·</span> Linux / CLI <span>·</span> Figma basics</p></article></div>
+        <div class="section-heading">
+          <p class="section-index"><span>03</span> / TOOLKIT</p>
+          <div><h2 id="skills-title">Tools for making<br><em>things work.</em></h2><p class="heading-intro">A snapshot of the tools and technologies I’m exploring.</p></div>
+        </div>
+        <div class="skills-grid">
+          <article><div class="skill-top"><span class="skill-index">01 / SYNTAX</span><span class="skill-symbol" aria-hidden="true">{ }</span></div><h3>Languages</h3><p>Python · JavaScript · HTML &amp; CSS · SQL</p></article>
+          <article><div class="skill-top"><span class="skill-index">02 / STRUCTURE</span><span class="skill-symbol" aria-hidden="true">&lt;/&gt;</span></div><h3>Frameworks &amp; APIs</h3><p>React · Node.js · Flask · REST APIs</p></article>
+          <article><div class="skill-top"><span class="skill-index">03 / EVERYDAY</span><span class="skill-symbol" aria-hidden="true">⌘</span></div><h3>The working kit</h3><p>Git &amp; GitHub · VS Code · Linux / CLI · Figma basics</p></article>
+        </div>
       </div>
     </section>
 
     <section class="section experience-section" id="experience" aria-labelledby="experience-title">
       <div class="wrap">
-        <div class="section-heading"><p class="section-index">04 / EXPERIENCE</p><div><h2 id="experience-title">Good work starts<br><em>with people.</em></h2><p class="heading-intro">People-facing roles that sharpened communication and composure.</p></div></div>
-        <div class="experience-list"><article class="experience-item"><span class="experience-type">EVENTS / DUBLIN</span><div><h3>Steward <span>— Croke Park</span></h3><p>Kept large crowds moving safely under time pressure — communication, composure, and reading a room in real time.</p></div><span class="experience-arrow" aria-hidden="true">↗</span></article><article class="experience-item"><span class="experience-type">RETAIL / IRELAND</span><div><h3>Retail assistant <span>— employer to add</span></h3><p>Handled customers, stock, and shifting priorities on the floor. Add the employer and dates when confirmed.</p></div><span class="experience-arrow" aria-hidden="true">↗</span></article></div>
+        <div class="section-heading">
+          <p class="section-index"><span>04</span> / EXPERIENCE</p>
+          <div><h2 id="experience-title">Good work starts<br><em>with people.</em></h2><p class="heading-intro">People-facing roles that sharpened communication and composure.</p></div>
+        </div>
+        <div class="experience-list">
+          <article class="experience-item"><span class="experience-type">EVENTS / DUBLIN</span><div><h3>Steward <span>— Croke Park</span></h3><p>Kept large crowds moving safely under time pressure — communication, composure, and reading a room in real time.</p></div><span class="experience-arrow" aria-hidden="true">↗</span></article>
+          <article class="experience-item"><span class="experience-type">RETAIL / IRELAND</span><div><h3>Retail assistant <span>— employer to add</span></h3><p>Handled customers, stock, and shifting priorities on the floor. Add the employer and dates when confirmed.</p></div><span class="experience-arrow" aria-hidden="true">↗</span></article>
+        </div>
       </div>
     </section>
 
     <section class="section contact-section" id="contact" aria-labelledby="contact-title">
       <div class="wrap contact-wrap">
-        <p class="section-index">05 / CONTACT</p>
+        <div><p class="section-index"><span>05</span> / CONTACT</p><span class="contact-flower" aria-hidden="true">✳</span></div>
         <div class="contact-content">
+          <p class="contact-kicker">THE BEST IDEAS START WITH A HELLO.</p>
           <h2 id="contact-title">Let's make<br><em>something matter.</em></h2>
           <p>Have an idea, an opportunity, or just want to say hello? Reach me through whichever channel works best for you.</p>
           <div class="contact-methods" aria-label="Contact Joel Morrison">
-            <a href="mailto:joelmorrison121@gmail.com"><span><small>EMAIL</small>joelmorrison121@gmail.com</span><span aria-hidden="true">↗</span></a>
-            <a href="https://github.com/joelmorrison121-cpu" target="_blank" rel="noopener noreferrer"><span><small>GITHUB</small>github.com/joelmorrison121-cpu</span><span aria-hidden="true">↗</span></a>
-            <a href="https://www.linkedin.com/in/joel-morrison-16a304389/" target="_blank" rel="noopener noreferrer"><span><small>LINKEDIN</small>linkedin.com/in/joel-morrison-16a304389</span><span aria-hidden="true">↗</span></a>
+            <a href="mailto:joelmorrison121@gmail.com"><span><small>01 / EMAIL</small>joelmorrison121@gmail.com</span><span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/joelmorrison121-cpu" target="_blank" rel="noopener noreferrer"><span><small>02 / GITHUB</small>github.com/joelmorrison121-cpu</span><span aria-hidden="true">↗</span></a>
+            <a href="https://www.linkedin.com/in/joel-morrison-16a304389/" target="_blank" rel="noopener noreferrer"><span><small>03 / LINKEDIN</small>linkedin.com/in/joel-morrison-16a304389</span><span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <span class="contact-asterisk" aria-hidden="true">✳</span>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer"><div class="wrap footer-inner"><a class="footer-brand" href="#top">JM<span>.</span></a><p>© <span id="year">2026</span> Joel Morrison</p><a href="#top" class="back-to-top">Back to top ↑</a></div></footer>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <a class="footer-brand" href="#top">JM<span>.</span></a>
+      <p>© <span id="year">2026</span> Joel Morrison <span class="footer-location">/ Dublin, Ireland</span></p>
+      <a href="#top" class="back-to-top">Back to top ↑</a>
+    </div>
+  </footer>
 </body>
 </html>
