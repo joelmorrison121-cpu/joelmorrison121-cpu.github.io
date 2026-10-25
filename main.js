@@ -1,5 +1,5 @@
 /* Joel Morrison — plain browser JavaScript.
- * The supplied React Bits Dither, ClickSpark and StaggeredMenu behaviors are
+ * The supplied React Bits GradientASCII, ClickSpark and StaggeredMenu behaviors are
  * adapted to native WebGL, Canvas and CSS. No modules or build step required.
  */
 (() => {
@@ -333,255 +333,30 @@
     layout();
   }
 
-  // -------------------------------------------------------------------------
-  // DITHER WAVES — original noise field, exact 8×8 Bayer order, one full-screen
-  // native WebGL pass. Quantize intensity before tinting: low RGB values are no
-  // longer crushed to black by the original postprocessing luminance bias.
-  // -------------------------------------------------------------------------
-  function setupWaves() {
-    const canvas = document.querySelector('#wave-canvas');
-    if (!canvas) return;
-    const gl = canvas.getContext('webgl', {
-      alpha: false, antialias: false, depth: false, stencil: false,
-      powerPreference: 'low-power', preserveDrawingBuffer: false
+  // GRADIENT ASCII — the supplied multi-pass renderer is readable in gradient-ascii.js.
+  // Settings can be hand-edited here. Decorative failures cannot block content.
+  function setupASCII() {
+    if (!window.startGradientASCII) return;
+    window.startGradientASCII(document.querySelector('#ascii-root'), {
+      colors: ['#1e3fd8', '#f6f8ff', '#a5d8ff', '#38bdf8'],
+      shape: 'horizon',
+      characters: ' =+xX0S8#@',
+      cellSize: 18,
+      density: 0.8,
+      glyphOpacity: 0.95,
+      gradientOpacity: 0.48,
+      glow: 0.5,
+      depthOfField: 0.08,
+      softness: 0.18,
+      scale: 1.1,
+      speed: 0.4,
+      grain: 0.08,
+      variation: 2,
+      scrambleRadius: 0.28,
+      clickEffect: 'burst',
+      maxFps: 30,
+      maxDpr: 1.5
     });
-    if (!gl) { canvas.hidden = true; return; }
-    const events = new AbortController();
-    const signal = events.signal;
-
-    // Tweak these native effect settings without a compiler or package install.
-    const settings = {
-      speed: 0.035,
-      frequency: 3,
-      amplitude: 0.3,
-      colorLevels: 5,
-      pixelSize: 2.5,
-      mouseRadius: 0.32,
-      waveColor: [0.43, 0.33, 0.18],
-      backgroundColor: [0.043, 0.039, 0.029]
-    };
-    const vertexSource = `
-      attribute vec2 position;
-      void main() { gl_Position = vec4(position, 0.0, 1.0); }
-    `;
-    const fragmentSource = `
-      precision highp float;
-      uniform vec2 resolution;
-      uniform float time;
-      uniform vec2 mousePosition;
-      uniform float mouseActive;
-      uniform float speed;
-      uniform float frequency;
-      uniform float amplitude;
-      uniform float colorLevels;
-      uniform float pixelSize;
-      uniform float mouseRadius;
-      uniform vec3 waveColor;
-      uniform vec3 backgroundColor;
-
-      vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-      vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
-      vec4 inverseSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
-      vec2 fade(vec2 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
-
-      float cnoise(vec2 p) {
-        vec4 pi = floor(p.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
-        vec4 pf = fract(p.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
-        pi = mod289(pi);
-        vec4 ix = pi.xzxz;
-        vec4 iy = pi.yyww;
-        vec4 fx = pf.xzxz;
-        vec4 fy = pf.yyww;
-        vec4 index = permute(permute(ix) + iy);
-        vec4 gx = fract(index / 41.0) * 2.0 - 1.0;
-        vec4 gy = abs(gx) - 0.5;
-        gx -= floor(gx + 0.5);
-        vec2 g00 = vec2(gx.x, gy.x);
-        vec2 g10 = vec2(gx.y, gy.y);
-        vec2 g01 = vec2(gx.z, gy.z);
-        vec2 g11 = vec2(gx.w, gy.w);
-        vec4 norm = inverseSqrt(vec4(dot(g00, g00), dot(g01, g01), dot(g10, g10), dot(g11, g11)));
-        g00 *= norm.x; g01 *= norm.y; g10 *= norm.z; g11 *= norm.w;
-        float n00 = dot(g00, vec2(fx.x, fy.x));
-        float n10 = dot(g10, vec2(fx.y, fy.y));
-        float n01 = dot(g01, vec2(fx.z, fy.z));
-        float n11 = dot(g11, vec2(fx.w, fy.w));
-        vec2 fadeXY = fade(pf.xy);
-        vec2 nx = mix(vec2(n00, n01), vec2(n10, n11), fadeXY.x);
-        return 2.3 * mix(nx.x, nx.y, fadeXY.y);
-      }
-
-      float fbm(vec2 p) {
-        float value = 0.0;
-        float gain = 1.0;
-        for (int octave = 0; octave < 4; octave++) {
-          value += gain * abs(cnoise(p));
-          p *= frequency;
-          gain *= amplitude;
-        }
-        return value;
-      }
-
-      // This generates the exact matrix supplied with React Bits without the
-      // dynamically indexed array/bitwise operators that WebGL 1 disallows.
-      float bayer8(vec2 cell) {
-        float x = mod(cell.x, 8.0);
-        float y = mod(cell.y, 8.0);
-        float rank = 0.0;
-        for (int bit = 0; bit < 3; bit++) {
-          float divisor = pow(2.0, float(bit));
-          float xb = mod(floor(x / divisor), 2.0);
-          float yb = mod(floor(y / divisor), 2.0);
-          float value = xb < 0.5 ? (yb < 0.5 ? 0.0 : 2.0) : (yb < 0.5 ? 3.0 : 1.0);
-          float weight = bit == 0 ? 16.0 : (bit == 1 ? 4.0 : 1.0);
-          rank += value * weight;
-        }
-        return (rank + 0.5) / 64.0;
-      }
-
-      void main() {
-        vec2 cell = floor(gl_FragCoord.xy / pixelSize);
-        vec2 pixel = (cell + 0.5) * pixelSize;
-        vec2 point = pixel / resolution - 0.5;
-        point.x *= resolution.x / resolution.y;
-        vec2 drift = point - time * speed;
-        float field = fbm(point + fbm(drift));
-        if (mouseActive > 0.5) {
-          vec2 mouse = mousePosition / resolution - 0.5;
-          mouse.x *= resolution.x / resolution.y;
-          float influence = 1.0 - smoothstep(0.0, mouseRadius, length(point - mouse));
-          field -= 0.35 * influence;
-        }
-        float intensity = pow(clamp(field, 0.0, 1.0), 1.3);
-        float levels = max(1.0, colorLevels - 1.0);
-        float quantized = floor(intensity * levels + bayer8(cell)) / levels;
-        vec3 color = mix(backgroundColor, waveColor, clamp(quantized, 0.0, 1.0));
-        gl_FragColor = vec4(color, 1.0);
-      }
-    `;
-
-    function shader(type, source) {
-      const result = gl.createShader(type);
-      gl.shaderSource(result, source);
-      gl.compileShader(result);
-      if (!gl.getShaderParameter(result, gl.COMPILE_STATUS)) {
-        throw new Error(gl.getShaderInfoLog(result));
-      }
-      return result;
-    }
-    const program = gl.createProgram();
-    gl.attachShader(program, shader(gl.VERTEX_SHADER, vertexSource));
-    gl.attachShader(program, shader(gl.FRAGMENT_SHADER, fragmentSource));
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
-    gl.useProgram(program);
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-    const position = gl.getAttribLocation(program, 'position');
-    gl.enableVertexAttribArray(position);
-    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
-    const uniform = {};
-    for (const name of ['resolution', 'time', 'mousePosition', 'mouseActive', ...Object.keys(settings)]) {
-      uniform[name] = gl.getUniformLocation(program, name);
-    }
-    for (const [name, value] of Object.entries(settings)) {
-      if (Array.isArray(value)) gl.uniform3fv(uniform[name], value);
-      else gl.uniform1f(uniform[name], value);
-    }
-    let pointerX = 0;
-    let pointerY = 0;
-    let pointerActive = false;
-    let frame = 0;
-    let lastPaint = 0;
-    let lastTick = 0;
-    let elapsed = 0;
-    let lost = false;
-
-    function render() {
-      gl.uniform2f(uniform.resolution, canvas.width, canvas.height);
-      gl.uniform1f(uniform.time, elapsed);
-      // Pointer Y is converted once, from CSS top-left to WebGL bottom-left.
-      gl.uniform2f(uniform.mousePosition,
-        pointerX * canvas.width / window.innerWidth,
-        (window.innerHeight - pointerY) * canvas.height / window.innerHeight);
-      gl.uniform1f(uniform.mouseActive, pointerActive ? 1 : 0);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    }
-    function tick(now) {
-      frame = 0;
-      if (document.hidden || motionQuery.matches || lost) return;
-      if (lastTick) elapsed += Math.min(0.1, (now - lastTick) / 1000);
-      lastTick = now;
-      if (now - lastPaint >= 1000 / 30) {
-        render();
-        lastPaint = now;
-      }
-      frame = window.requestAnimationFrame(tick);
-    }
-    function wake() {
-      lastTick = 0;
-      if (!frame && !document.hidden && !motionQuery.matches && !lost) frame = window.requestAnimationFrame(tick);
-    }
-    function resize() {
-      window.cancelAnimationFrame(frame);
-      frame = 0;
-      // One framebuffer pixel per CSS pixel; shader cells are 2.5 CSS pixels.
-      canvas.width = Math.max(1, window.innerWidth);
-      canvas.height = Math.max(1, window.innerHeight);
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      render();
-      wake();
-    }
-    function cleanup() {
-      window.cancelAnimationFrame(frame);
-      frame = 0;
-      events.abort();
-      // A context loss already frees GPU objects. They cannot be deleted in the
-      // restored context; only explicitly free them while the original is valid.
-      if (!lost) {
-        gl.deleteBuffer(buffer);
-        gl.deleteProgram(program);
-      }
-    }
-    window.addEventListener('pointermove', event => {
-      pointerX = event.clientX;
-      pointerY = event.clientY;
-      pointerActive = true;
-    }, { passive: true, signal });
-    const releasePointer = event => {
-      if (event.pointerType !== 'mouse') pointerActive = false;
-    };
-    window.addEventListener('pointerup', releasePointer, { passive: true, signal });
-    window.addEventListener('pointercancel', releasePointer, { passive: true, signal });
-    document.documentElement.addEventListener('pointerleave', () => { pointerActive = false; }, { signal });
-    window.addEventListener('resize', resize, { passive: true, signal });
-    document.addEventListener('visibilitychange', () => {
-      window.cancelAnimationFrame(frame);
-      frame = 0;
-      wake();
-    }, { signal });
-    motionQuery.addEventListener('change', () => {
-      window.cancelAnimationFrame(frame);
-      frame = 0;
-      wake();
-    }, { signal });
-    canvas.addEventListener('webglcontextlost', event => {
-      event.preventDefault();
-      lost = true;
-      window.cancelAnimationFrame(frame);
-      frame = 0;
-      canvas.hidden = true;
-    }, { signal });
-    canvas.addEventListener('webglcontextrestored', () => {
-      // Remove the old listeners and resources before compiling a fresh renderer.
-      // The CSS gradient remains visible during recovery or on a failed restore.
-      cleanup();
-      enhance('Restored dither waves', setupWaves);
-    }, { once: true, signal });
-    canvas.hidden = false;
-    canvas.dataset.rendered = 'true';
-    resize();
   }
 
   // One-time, progressive section entrances; nothing is hidden without JS.
@@ -595,7 +370,7 @@
         }
       });
     }, { threshold: 0.08 });
-    document.querySelectorAll('.section-heading, .featured-project, .skills-grid').forEach(element => {
+    document.querySelectorAll('.section-heading, .featured-project, .skill-evidence').forEach(element => {
       element.classList.add('reveal-ready');
       observer.observe(element);
     });
@@ -606,10 +381,10 @@
   enhance('Click sparks', setupClickSpark);
   enhance('Small typed labels', () => {
     typeLabel(document.querySelector('#hero-type-kicker'), ['Dublin · Software', 'Building web & AI', 'DCU · Redbrick'], 350);
-    typeLabel(document.querySelector('#hero-type-meta'), ['DCU · Redbrick · Web & AI', 'Python · JavaScript · React', 'Curious about practical tools'], 900);
+    typeLabel(document.querySelector('#hero-type-meta'), ['Year 2 · DCU · Class of 2029', 'Python · Web development · AI', 'Open to work opportunities'], 900);
   });
   enhance('First-name animation', () => techName(document.querySelector('.hero-name-line.first')));
   enhance('Surname animation', () => techName(document.querySelector('.hero-name-line.last')));
-  enhance('Dither waves', setupWaves);
+  enhance('Gradient ASCII', setupASCII);
   enhance('Section entrances', setupReveals);
 })();
