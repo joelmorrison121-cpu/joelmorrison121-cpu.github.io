@@ -2,110 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#100f0c">
-  <title>AI Racing Simulator — Joel Morrison</title>
-  <meta name="description" content="A Python racing game where neural-network drivers learn four circuits through neuroevolution, tested across five random seeds and unseen tracks. A project by Joel Morrison.">
-  <link rel="canonical" href="https://joelmorrison121-cpu.github.io/ai-racing.html">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="AI Racing Simulator — Joel Morrison">
-  <meta property="og:description" content="From random decisions to completing a circuit: a work-in-progress experiment in neuroevolution.">
-  <meta property="og:url" content="https://joelmorrison121-cpu.github.io/ai-racing.html">
-  <meta property="og:image" content="https://joelmorrison121-cpu.github.io/ai-racer-demo-poster.jpg">
-  <meta property="og:image:width" content="1280">
-  <meta property="og:image:height" content="720">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="projects.css">
-  <script src="gradient-ascii.js" defer></script>
-  <script src="main.js" defer></script>
+  <title>Crash Course — Joel Morrison</title>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://joelmorrison121-cpu.github.io/crash-course.html">
+  <meta http-equiv="refresh" content="0; url=crash-course.html">
+  <script>location.replace('crash-course.html' + location.hash);</script>
 </head>
-<body class="case-page">
-  <div id="ascii-root" aria-hidden="true"></div>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="case-header"><div class="wrap">
-    <a class="wordmark" href="index.html" aria-label="Joel Morrison, home"><span class="wordmark-mark" aria-hidden="true">JM<span>.</span></span><span>Joel <em>Morrison</em></span></a>
-    <a href="index.html#projects">← All projects</a>
-  </div></header>
-  <main class="wrap" id="main">
-    <section class="case-hero" aria-labelledby="project-title">
-      <p class="project-state"><span class="state-dot" aria-hidden="true"></span> PLAYABLE DESKTOP BUILD / v2.0 RELEASED</p>
-      <h1 id="project-title">Learning to drive.<br><em>One generation at a time.</em></h1>
-      <p class="case-lede">AI Racer is a 2D racing game in Python. A population of neural-network drivers learns to get round a circuit through selection and mutation, and you can drive it yourself too.</p>
-      <div class="hero-actions"><a class="button button-primary" href="https://github.com/joelmorrison121-cpu/AI_racer" target="_blank" rel="noopener noreferrer">View on GitHub <span aria-hidden="true">↗</span></a><a class="text-link" href="#run-locally">Run it locally ↓</a></div>
-      <dl class="case-facts">
-        <div><dt>Role</dt><dd>Solo project</dd></div>
-        <div><dt>Built with</dt><dd>Python · Pygame</dd></div>
-        <div><dt>Method</dt><dd>Neuroevolution</dd></div>
-        <div><dt>Format</dt><dd>Desktop app · v2.0</dd></div>
-      </dl>
-      <nav class="case-nav" aria-label="Project sections"><a href="#in-action">In action ↓</a><a href="#how-it-works">How it learns ↓</a><a href="#engineering">Engineering ↓</a><a href="#next">What’s next ↓</a></nav>
-    </section>
-    <figure class="case-figure" id="in-action">
-      <video controls preload="none" poster="ai-racer-demo-poster.jpg" width="1280" height="720" playsinline><source src="ai-racer-demo.mp4" type="video/mp4"><p><a href="ai-racer-demo.mp4">Download the training demo (MP4)</a></p></video>
-      <figcaption>Recorded from the live trainer (30 drivers per generation, seed 42). In generation 1 random networks crash or stall. Generation 13 learns the first corner, generation 14 gets round two, and generation 16 completes the first laps. By generation 19, 20 of 30 drivers finish. Silent, 25 s.</figcaption>
-    </figure>
-    <section class="case-section" id="run-locally" aria-labelledby="run-title">
-      <p class="section-index">DOWNLOAD / RUN LOCALLY</p>
-      <h2 id="run-title">Try it yourself.</h2>
-      <p>Clone the repository, or download the v2.0 ZIP. With Python 3.10 or newer, run <code>python -m pip install -r requirements.txt</code> and then <code>python main.py</code>. On Windows you can use <code>py</code> in place of <code>python</code>.</p>
-      <p>Drive with WASD or the arrow keys. <strong>Tab</strong> switches to the saved champion AI and <strong>R</strong> resets the attempt. Add <code>--track flowing</code> (or <code>easy</code> or <code>technical</code>) to try another circuit. Run <code>python live_train.py</code> to watch a new population evolve, and press <strong>G</strong> for the progress graph. The README covers every setting and control.</p>
-      <div class="hero-actions"><a class="button button-primary" href="https://github.com/joelmorrison121-cpu/AI_racer" target="_blank" rel="noopener noreferrer">GitHub repository <span aria-hidden="true">↗</span></a><a class="text-link" href="ai-racer-source.zip" download>Download v2.0 ZIP ↓</a></div>
-      <p class="case-note">The ZIP is built from the repository's <code>v2.0</code> tag. GitHub always has the latest version.</p>
-    </section>
-    <section class="case-section" aria-labelledby="idea-title">
-      <p class="section-index">01 / THE IDEA</p>
-      <h2 id="idea-title">Could I watch an algorithm<br>learn something I could play?</h2>
-      <p>I was fascinated by videos of AI agents improving over generations. I wanted to build my own version: a game I could drive manually, with enough momentum and sliding that an AI would have to learn how to handle it.</p>
-      <p>I started with a moving rectangle and built up the track, collisions, checkpoints and lap timing before adding sensors and neural-network controllers. Watching early drivers crash, then later generations get around the first corner and eventually complete the circuit, made the learning process tangible.</p>
-      <p class="case-note">This is an ongoing learning project developed with AI assistance for explanation, implementation and debugging. I’ve been working through the physics, control logic and evolutionary process as I build.</p>
-    </section>
-    <section class="case-section" id="how-it-works" aria-labelledby="learning-title">
-      <p class="section-index">02 / HOW IT LEARNS</p>
-      <h2 id="learning-title">Observe. Drive. Evaluate. Evolve.</h2>
-      <div class="case-grid">
-        <article class="case-box"><span class="step-index">01 / OBSERVE</span><h3>Give each car a view.</h3><p>Seven rays measure nearby obstacles. Forward and sideways velocity, plus the direction to the next checkpoint, bring the observation to 11 inputs.</p></article>
-        <article class="case-box"><span class="step-index">02 / ACT</span><h3>Turn numbers into movement.</h3><p>A small neural network with eight hidden neurons produces steering, accelerator and brake commands. The car’s physics determines what happens next.</p></article>
-        <article class="case-box"><span class="step-index">03 / EVALUATE</span><h3>Measure useful progress.</h3><p>Each attempt earns fitness for ordered checkpoints and partial progress towards the next one. Crashes, inactivity and time limits end attempts.</p></article>
-        <article class="case-box"><span class="step-index">04 / EVOLVE</span><h3>Keep success. Explore changes.</h3><p>The trainer preserves the strongest controllers, mutates copies of successful networks and introduces new random drivers. A new generation then tries again.</p></article>
-      </div>
-      <p class="case-note">The network’s weights stay fixed during an attempt. Learning happens between generations through selection and mutation, rather than through a weight update after every crash.</p>
-    </section>
-    <section class="case-section" id="engineering" aria-labelledby="engineering-title">
-      <p class="section-index">03 / ENGINEERING</p>
-      <h2 id="engineering-title">A game and an experiment.</h2>
-      <div class="case-grid">
-        <article class="case-box"><h3>One set of driving rules.</h3><p>Manual input and neural-network output feed the same car controller. Fixed simulation steps keep physics consistent when training runs faster than playback.</p></article>
-        <article class="case-box"><h3>Independent agents, shared world.</h3><p>Each agent owns a car, sensors and race state. The track is shared, and cars pass through each other so they face the same environment.</p></article>
-        <article class="case-box"><h3>Visible, inspectable training.</h3><p>The population viewer shows active drivers, faded crashes, a highlighted leader and generation statistics. It supports pausing, faster playback and camera switching.</p></article>
-        <article class="case-box"><h3>Separate simulation and drawing.</h3><p>Camera movement affects the display, while physics and collisions stay in world coordinates. Live and non-rendered evaluation use the same Agent attempt logic.</p></article>
-      </div>
-    </section>
-    <section class="case-section" aria-labelledby="debug-title">
-      <p class="section-index">04 / A DEBUGGING LESSON</p>
-      <h2 id="debug-title">The AI was deciding.<br>The car wasn’t moving.</h2>
-      <p>When AI mode initially appeared broken, inspecting the network’s outputs revealed that it was pressing both the accelerator and brake. Braking was stronger, so its speed returned to zero every step.</p>
-      <p>The game was also creating the same random network at startup rather than loading the saved champion. Connecting the trained parameters to playback made it possible to watch the controller that training had actually selected.</p>
-      <p><strong>The lesson:</strong> inspect the observations and actions before assuming the simulation is broken, and verify that evaluation and playback use the intended controller.</p>
-    </section>
-    <section class="case-section" id="next" aria-labelledby="next-title">
-      <p class="section-index">05 / v2.0 &amp; WHAT THE EXPERIMENTS SHOWED</p>
-      <h2 id="next-title">Four tracks, five seeds.<br>An honest result.</h2>
-      <p>Version 2.0 adds curved circuits built from a centre-line path and road width, checkpoints at any angle, fitness measured along the route, and a bonus for faster laps. It also adds save/resume, live progress graphs and tools for repeatable experiments.</p>
-      <figure class="case-figure"><img src="ai-racer-tracks.webp" width="1310" height="910" loading="lazy" alt="The four AI Racer circuits: classic rectangle, easy oval, flowing S-bends and a technical track with hairpins."><figcaption>The four circuits. Every track except classic is generated from a smoothed centre-line path.</figcaption></figure>
-      <div class="case-grid">
-        <article class="case-box"><h3>Training: flowing track</h3><ul class="case-list"><li><strong>5 of 5</strong> random seeds learned a full lap.</li><li>First lap at generation <strong>15.8 ± 3.1</strong>.</li><li>Best lap <strong>15.7 ± 0.3 s</strong>; about half of each final generation finishes.</li></ul></article>
-        <article class="case-box"><h3>Tested on unseen tracks</h3><ul class="case-list"><li><strong>Easy oval:</strong> 5 / 5 champions lap it.</li><li><strong>Classic 90° corners:</strong> 2 / 5.</li><li><strong>Technical hairpins:</strong> 0 / 5, with 47% of the lap reached on average.</li></ul></article>
-      </div>
-      <p class="case-note">The drivers learn behaviour that transfers to similar, smoother tracks, but not yet to tight hairpins they never saw. My next experiments are training on a rotation of tracks and giving the network a look-ahead input.</p>
-      <p class="case-note">Twenty unit tests cover the physics, checkpoints at any angle, progress through hairpins, the lap reward, exact save/resume and training. Full tables are in the <a href="https://github.com/joelmorrison121-cpu/AI_racer#results-at-a-glance" target="_blank" rel="noopener noreferrer">repository README ↗</a>.</p>
-      <div class="hero-actions"><a class="button button-primary" href="index.html#projects">Back to my work <span aria-hidden="true">↗</span></a><a class="text-link" href="mailto:joelmorrison121@gmail.com">Ask about the project ↗</a></div>
-    </section>
-  </main>
-  <footer class="case-footer wrap"><p>Joel Morrison / AI Racing Simulator</p><p>Project notes updated <time datetime="2026-10-25">25 October 2026</time></p></footer>
+<body style="background:#100f0c;color:#f2ece2;font-family:system-ui,sans-serif">
+  <p>AI Racer is now <a href="crash-course.html" style="color:#eed09a">Crash Course</a>.</p>
 </body>
 </html>

@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://joelmorrison121-cpu.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Joel Morrison — Computer Science Portfolio">
-  <meta property="og:description" content="Second-year DCU Computer Science student. Projects include AI Racer, a neuroevolution racing game in Python, and hackathon builds. Open to work.">
+  <meta property="og:description" content="Second-year DCU Computer Science student. Projects include Crash Course, a neuroevolution racing game in Python, and hackathon builds. Open to work.">
   <meta property="og:url" content="https://joelmorrison121-cpu.github.io/">
   <meta property="og:site_name" content="Joel Morrison">
   <meta property="og:image" content="https://joelmorrison121-cpu.github.io/og-image.png">
@@ -207,25 +207,25 @@
           <p class="section-index"><span>02</span> / SELECTED WORK</p>
           <div><h2 id="projects-title">Built to learn.<br><em>Shared with context.</em></h2><p class="heading-intro">A released desktop game, this site and two hackathon prototypes, each labelled with its current status.</p></div>
         </div>
-        <article class="featured-project" id="ai-racer" aria-labelledby="racer-title" data-border-glow>
+        <article class="featured-project" id="crash-course" aria-labelledby="racer-title" data-border-glow>
           <figure class="project-capture">
-            <div class="art-topline"><span>01 / AI RACER</span><span>TRAINING DEMO</span></div>
+            <div class="art-topline"><span>01 / CRASH COURSE</span><span>TRAINING DEMO</span></div>
             <video controls preload="none" poster="ai-racer-demo-poster.jpg" width="1280" height="720" playsinline><source src="ai-racer-demo.mp4" type="video/mp4"><p><a href="ai-racer-demo.mp4">Download the AI Racer demo (MP4)</a></p></video>
             <figcaption>Recorded from the trainer. Generation 1 crashes, generation 13 learns the first corner, generation 16 completes the first laps, and by generation 19, 20 of 30 drivers finish. 25 s, silent.</figcaption>
           </figure>
           <div class="project-details">
-            <p class="project-state"><span class="state-dot" aria-hidden="true"></span> PLAYABLE DESKTOP BUILD / v2.0 RELEASED</p>
-            <h3 id="racer-title">AI Racer<span class="title-period">.</span></h3>
+            <p class="project-state"><span class="state-dot" aria-hidden="true"></span> PLAYABLE DESKTOP BUILD / v2.1 RELEASED</p>
+            <h3 id="racer-title">Crash Course<span class="title-period">.</span></h3>
             <p class="project-description">A 2D racing game in which neural-network drivers learn four circuits by neuroevolution, through selection and mutation across generations. Results are tested across five random seeds and on tracks the drivers never trained on.</p>
             <ul class="tag-list" aria-label="Project stack"><li>Python</li><li>Pygame</li><li>Neuroevolution</li><li>unittest</li></ul>
             <p class="project-description"><strong>My contribution:</strong> solo project. I designed and built the car physics, track and checkpoints, sensors, neural network and evolutionary trainer, using AI assistance for explanations and debugging.</p>
-            <div class="project-links"><a class="text-link" href="https://github.com/joelmorrison121-cpu/AI_racer" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a><a class="text-link" href="ai-racing.html">Read the build notes ↗</a></div>
+            <div class="project-links"><a class="text-link" href="https://github.com/joelmorrison121-cpu/crash-course" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a><a class="text-link" href="crash-course.html">Read the build notes ↗</a></div>
             <details class="evidence-disclosure">
               <summary>What works &amp; what I learned <span aria-hidden="true">+</span></summary>
               <p><strong>Works:</strong> four tracks, including curved ones built from a centre-line path, plus checkpoints at any angle, a lap-time reward, save/resume and live progress graphs. On the flowing track all five seeds learned a lap, at generation 15.8 ± 3.1. Champions transfer to an unseen oval (5/5) but not yet to hairpins (0/5). Twenty unit tests pass.</p>
               <p><strong>Learned:</strong> fixed-timestep simulation, ray-cast sensors and fitness design. I also learned to inspect a network's inputs and outputs before assuming the physics is broken. One early AI pressed the accelerator and the brake at the same time.</p>
             </details>
-            <p class="project-note">Desktop app (Python 3.10+, pygame-ce). The README covers setup, controls and training. <a href="ai-racer-source.zip" download>Download the v2.0 source ZIP ↓</a></p>
+            <p class="project-note">Desktop app (Python 3.10+, pygame-ce). The README covers setup, controls and training. <a href="crash-course-source.zip" download>Download the v2.1 source ZIP ↓</a></p>
           </div>
         </article>
 
@@ -301,7 +301,7 @@
           <li><strong>CSS</strong><a href="#portfolio-project">Responsive layout &amp; staggered menu ↗</a><span>Public project</span></li>
           <li><strong>JavaScript</strong><a href="#portfolio-project">Browser interactions &amp; canvas effects ↗</a><span>Public project</span></li>
           <li><strong>Git / GitHub</strong><a href="https://github.com/joelmorrison121-cpu/joelmorrison121-cpu.github.io" target="_blank" rel="noopener noreferrer">Portfolio source &amp; version history ↗</a><span>Public project</span></li>
-          <li><strong>Python</strong><a href="https://github.com/joelmorrison121-cpu/AI_racer" target="_blank" rel="noopener noreferrer">AI Racer source &amp; tests ↗</a><span>Public project</span></li>
+          <li><strong>Python</strong><a href="https://github.com/joelmorrison121-cpu/crash-course" target="_blank" rel="noopener noreferrer">Crash Course source &amp; tests ↗</a><span>Public project</span></li>
           <li><strong>C</strong><a href="#education">Systems Programming · DCU ↗</a><span>Current coursework</span></li>
           <li><strong>React</strong><a href="https://splitpay-pzjgc2pw.manus.space" target="_blank" rel="noopener noreferrer">Split frontend demo ↗</a><span>Hackathon prototype</span></li>
         </ul>

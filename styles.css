@@ -39,7 +39,7 @@ em { font-style: italic; font-weight: 400; }
 /* The full-document GradientASCII field uses original warm ink/brown/brass tones; dark scrims protect copy.
    A static gradient remains visible without JavaScript or WebGL2. */
 #ascii-root { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background: radial-gradient(ellipse at 65% 25%, #51402a, #100f0c 78%); }
-/* Keep the main hero's upper edge quieter; the AI Racer page retains the full field. */
+/* Keep the main hero's upper edge quieter; the Crash Course page retains the full field. */
 
 /* The renderer supplies its own gradient. Do not add a smooth CSS wash underneath
    its transparent characters; the renderer's fallback handles WebGL failure. */
