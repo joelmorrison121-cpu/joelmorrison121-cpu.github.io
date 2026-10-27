@@ -338,22 +338,26 @@
   function setupASCII() {
     if (!window.startGradientASCII) return;
     window.startGradientASCII(document.querySelector('#ascii-root'), {
-      colors: ['#100f0c', '#302719', '#51402a', '#d6b77b'],
+      // React Bits GradientASCII defaults, in the site's warm palette:
+      // edge of the shadow -> brightest point (brass, cream, pale gold, deep brass).
+      colors: ['#5e4626', '#e9d8b4', '#d9b878', '#a8803f'],
       shape: 'horizon',
       characters: ' =+xX0S8#@',
       cellSize: 18,
       density: 0.8,
-      glyphOpacity: 1,
-      gradientOpacity: 0.12,
-      glow: 0.08,
+      glyphOpacity: 0.85,
+      gradientOpacity: 0.5,
+      glow: 0.2,
       depthOfField: 0,
-      softness: 0.18,
-      scale: 1.1,
-      speed: 0.4,
-      grain: 0.02,
-      variation: 2,
-      scrambleRadius: 0.28,
-      clickEffect: 'burst',
+      flicker: 0.2,
+      softness: 0.5,
+      scale: 1,
+      flow: 0.5,
+      speed: 1,
+      grain: 0.08,
+      variation: 0,
+      scrambleRadius: 0.1,
+      clickEffect: 'wave',
       maxFps: 30,
       maxDpr: 2
     });
