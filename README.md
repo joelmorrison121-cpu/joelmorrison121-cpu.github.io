@@ -1,0 +1,27 @@
+# Joel Morrison — portfolio
+
+Live: **https://joelmorrison121-cpu.github.io/**
+
+A plain static site: hand-written HTML, CSS and browser JavaScript, with no build step and no dependencies. Open `index.html` to run it locally. GitHub Pages serves the `main` branch from the root.
+
+## Files
+
+| File | Purpose |
+| --- | --- |
+| `index.html` | Homepage: hero, about, projects, skills, education, experience, contact |
+| `ai-racing.html` | AI Racer case study |
+| `styles.css` | Design tokens (`--bg`, `--ink`, `--brass`…), layout, responsive rules |
+| `projects.css` | Case-study page styles |
+| `main.js` | Menu, click sparks, typed microcopy, ASCII background settings (`setupASCII()`) |
+| `gradient-ascii.js` | WebGL2 ASCII gradient background, with a static fallback |
+| `og-image.png` | Preview image used when the URL is shared |
+| `ai-racer-source.zip` | AI Racer source, built from the [AI_racer](https://github.com/joelmorrison121-cpu/AI_racer) `v2.0` tag |
+
+## Editing notes
+
+- **Navigation:** the desktop nav, the no-JS mobile `<details>` menu and the staggered menu each list the sections. If you add a section, update all three.
+- **Palette:** change it only through the CSS custom properties at the top of `styles.css`. The ASCII colours live in `setupASCII()` in `main.js`.
+- **Motion:** the background pauses in hidden tabs and respects `prefers-reduced-motion`. Videos use `preload="none"`, so they don't download until played.
+- **AI Racer ZIP:** to rebuild it after a new release, run this from the AI_racer repo:
+  `git archive --format=zip --prefix=AI_racer/ -o ai-racer-source.zip <tag> -- . ":!docs/*.gif" ":!docs/demo.mp4" ":!docs/results/*.png" ":!docs/*.png"`
+- **CV:** `Joel-Morrison-CV.pdf` is the public copy, without a phone number.

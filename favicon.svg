@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="JM monogram">
+  <rect width="128" height="128" rx="20" fill="#100f0c"/>
+  <rect x="13" y="13" width="102" height="102" rx="5" fill="none" stroke="#d6b77b" stroke-width="3"/>
+  <text x="61" y="81" text-anchor="middle" fill="#d6b77b" font-family="Georgia,serif" font-size="48" letter-spacing="-8">JM</text>
+  <circle cx="95" cy="80" r="4" fill="#d6b77b"/>
+</svg>
