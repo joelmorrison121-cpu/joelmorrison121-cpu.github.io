@@ -90,6 +90,120 @@
     document.documentElement.classList.add('menu-enhanced');
   }
 
+  // -------------------------------------------------------------------------
+  // MENU PREVIEWS — after Aceternity's Hover Image Links. Hovering a menu link
+  // shows a small card for that section, which trails the cursor on a spring
+  // and leans a little as it moves. Desktop pointers only; with reduced motion
+  // the card sits still beside the link.
+  // -------------------------------------------------------------------------
+  function setupMenuPreview() {
+    const wrapper = document.querySelector('.staggered-menu-wrapper');
+    const preview = wrapper?.querySelector('.sm-preview');
+    const card = preview?.querySelector('.sm-preview-card');
+    const panel = wrapper?.querySelector('.staggered-menu-panel');
+    const list = panel?.querySelector('.sm-panel-list');
+    const links = [...(list?.querySelectorAll('.sm-panel-item[data-preview]') || [])];
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    if (!preview || !card || !links.length) return;
+
+    const W = 360, H = 232, GAP = 32, EDGE = 16;
+    const images = new Map();
+    let loaded = false, active = null, frame = 0, last = 0;
+    // Spring state: position, velocity and target (the demo uses stiffness 160, damping 22).
+    const s = { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0, tilt: 0 };
+
+    function load() {
+      if (loaded) return;
+      loaded = true;
+      links.forEach(link => {
+        const img = new Image();
+        img.src = link.dataset.preview;
+        img.alt = '';
+        img.decoding = 'async';
+        card.appendChild(img);
+        images.set(link, img);
+      });
+    }
+    // The card sits in the space left of the panel, so it never covers a label.
+    const fits = () => finePointer.matches && panel.getBoundingClientRect().left > W + GAP + EDGE;
+
+    function aim(x, y) {
+      // Mostly tracks the cursor's height; drifts a little sideways with it.
+      const left = panel.getBoundingClientRect().left;
+      s.tx = Math.max(EDGE, left - GAP - W + (x - left) * 0.08);
+      s.ty = Math.min(window.innerHeight - H - EDGE, Math.max(EDGE, y - H / 2));
+    }
+    function place() {
+      preview.style.transform = `translate3d(${s.x.toFixed(1)}px, ${s.y.toFixed(1)}px, 0) rotate(${s.tilt.toFixed(2)}deg)`;
+    }
+    function tick(now) {
+      const dt = Math.min(0.032, (now - last) / 1000 || 0.016);
+      last = now;
+      for (const axis of ['x', 'y']) {
+        const v = 'v' + axis, t = 't' + axis;
+        s[v] += (160 * (s[t] - s[axis]) - 22 * s[v]) * dt;
+        s[axis] += s[v] * dt;
+      }
+      // Lean into horizontal movement, at most 5 degrees.
+      const lean = Math.max(-5, Math.min(5, s.vx / 160 + s.vy / 900));
+      s.tilt += (lean - s.tilt) * Math.min(1, dt * 12);
+      place();
+      const moving = Math.abs(s.vx) + Math.abs(s.vy) > 0.5 || Math.abs(s.tx - s.x) + Math.abs(s.ty - s.y) > 0.5;
+      frame = moving || active ? window.requestAnimationFrame(tick) : 0;
+    }
+    function show(link, x, y) {
+      if (!fits()) return hide();
+      load();
+      const first = !active;
+      active = link;
+      images.forEach((img, key) => img.classList.toggle('is-active', key === link));
+      links.forEach(item => item.classList.toggle('is-previewed', item === link));
+      list.classList.add('is-previewing');
+      aim(x, y);
+      if (first || motionQuery.matches) {
+        // Appear in place rather than flying in from the last spot.
+        s.x = s.tx; s.y = s.ty; s.vx = s.vy = 0; s.tilt = 0;
+        place();
+      }
+      preview.classList.add('is-visible');
+      if (!motionQuery.matches && !frame) {
+        last = performance.now();
+        frame = window.requestAnimationFrame(tick);
+      }
+    }
+    function hide() {
+      active = null;
+      preview.classList.remove('is-visible');
+      list.classList.remove('is-previewing');
+      links.forEach(item => item.classList.remove('is-previewed'));
+    }
+    function anchorTo(link) {
+      const rect = link.getBoundingClientRect();
+      return [panel.getBoundingClientRect().left, rect.top + rect.height / 2];
+    }
+
+    links.forEach(link => {
+      link.addEventListener('pointerenter', event => {
+        if (event.pointerType !== 'mouse') return;
+        const [x, y] = motionQuery.matches ? anchorTo(link) : [event.clientX, event.clientY];
+        show(link, x, y);
+      });
+      link.addEventListener('pointermove', event => {
+        if (event.pointerType !== 'mouse' || active !== link || motionQuery.matches) return;
+        aim(event.clientX, event.clientY);
+      });
+      link.addEventListener('focus', () => {
+        if (link.matches(':focus-visible')) show(link, ...anchorTo(link));
+      });
+      link.addEventListener('blur', () => { if (active === link) hide(); });
+      link.addEventListener('click', hide);
+    });
+    list.addEventListener('pointerleave', hide);
+    new MutationObserver(() => { if (wrapper.dataset.open !== 'true') hide(); })
+      .observe(wrapper, { attributes: true, attributeFilter: ['data-open'] });
+    window.addEventListener('resize', () => { if (active && !fits()) hide(); });
+  }
+
   // Native disclosure menus and the archive folder still work without scripts.
   function setupDisclosures() {
     document.querySelectorAll('details').forEach(details => {
@@ -381,6 +495,7 @@
   }
 
   enhance('Navigation', setupMenu);
+  enhance('Menu previews', setupMenuPreview);
   enhance('Disclosure links', setupDisclosures);
   enhance('Click sparks', setupClickSpark);
   enhance('Small typed labels', () => {
