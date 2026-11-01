@@ -204,6 +204,68 @@
     window.addEventListener('resize', () => { if (active && !fits()) hide(); });
   }
 
+  // -------------------------------------------------------------------------
+  // HEADER — transparent over the hero, a slim translucent bar once scrolled.
+  // -------------------------------------------------------------------------
+  function setupHeaderScroll() {
+    const wrapper = document.querySelector('.staggered-menu-wrapper');
+    if (!wrapper) return;
+    const header = wrapper.querySelector('.staggered-menu-header');
+    // On the homepage the bar waits until the big name has scrolled fully
+    // under the header; on other pages it appears after a short scroll.
+    const name = document.querySelector('#hero-title');
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const hidden = name
+        ? name.getBoundingClientRect().bottom <= (header ? header.offsetHeight : 88)
+        : window.scrollY > 24;
+      wrapper.classList.toggle('is-scrolled', hidden);
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  // -------------------------------------------------------------------------
+  // DISCLOSURES — animate <details> open and closed instead of snapping.
+  // Without JavaScript, or with reduced motion, they open instantly as normal.
+  // -------------------------------------------------------------------------
+  function setupDisclosureMotion() {
+    if (motionQuery.matches || !Element.prototype.animate) return;
+    document.querySelectorAll('details.demo-disclosure, details.evidence-disclosure').forEach(details => {
+      const summary = details.querySelector('summary');
+      if (!summary) return;
+      let animation = null;
+      const finish = open => {
+        details.open = open;
+        details.classList.remove('is-animating');
+        details.style.height = '';
+        animation = null;
+      };
+      summary.addEventListener('click', event => {
+        event.preventDefault();
+        const opening = !details.open || animation?.closing;
+        const start = details.getBoundingClientRect().height;
+        animation?.cancel();
+        details.classList.add('is-animating');
+        if (opening) details.open = true;
+        const end = opening
+          ? details.scrollHeight + (details.offsetHeight - details.clientHeight)
+          : summary.getBoundingClientRect().height + (details.offsetHeight - details.clientHeight);
+        animation = details.animate(
+          { height: [`${start}px`, `${end}px`] },
+          { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+        );
+        animation.closing = !opening;
+        animation.onfinish = () => finish(opening);
+        animation.oncancel = () => details.classList.remove('is-animating');
+      });
+    });
+  }
+
   // Native disclosure menus and the archive folder still work without scripts.
   function setupDisclosures() {
     document.querySelectorAll('details').forEach(details => {
@@ -496,6 +558,8 @@
 
   enhance('Navigation', setupMenu);
   enhance('Menu previews', setupMenuPreview);
+  enhance('Header on scroll', setupHeaderScroll);
+  enhance('Disclosure motion', setupDisclosureMotion);
   enhance('Disclosure links', setupDisclosures);
   enhance('Click sparks', setupClickSpark);
   enhance('Small typed labels', () => {

@@ -483,7 +483,7 @@ h2 em { color: var(--brass-light); font-family: var(--font-display); font-size: 
   -webkit-mask-image: conic-gradient(from var(--cursor-angle) at center, #000 2.5%, transparent 10%, transparent 90%, #000 97.5%);
   mask-image: conic-gradient(from var(--cursor-angle) at center, #000 2.5%, transparent 10%, transparent 90%, #000 97.5%);
   opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity))); }
-.border-glow:not(:hover) > .border-glow__light { opacity: 0; transition: opacity 0.75s ease-in-out; }
+.border-glow:not(.is-glowing) > .border-glow__light { opacity: 0; transition: opacity 0.75s ease-in-out; }
 .border-glow > .border-glow__light::before { content: ""; position: absolute; inset: var(--glow-padding);
   box-shadow:
     inset 0 0 0 1px hsl(40deg 80% 80% / 100%),
@@ -567,3 +567,52 @@ a.hero-note:hover p, a.hero-note:focus-visible p { color: var(--brass-light); }
 .cert-line strong { color: var(--ink); font-weight: 500; }
 .cert-line a { color: var(--brass-light); }
 @media (max-width: 1050px) { .cert-line { margin-left: 0; } }
+
+/* ---------------------------------------------------------------------------
+   Header: no solid bar over the hero. It turns into a slim, translucent bar
+   once the page is scrolled (main.js adds .is-scrolled). The name beside the
+   JM mark only appears then, because the hero already shows it in full.
+   --------------------------------------------------------------------------- */
+/* Leaving: the name goes first and quickly, then the bar settles back. */
+.staggered-menu-header { background: transparent; border-color: transparent; transition: background 0.3s ease 0.08s, border-color 0.3s ease 0.08s, height 0.45s var(--ease) 0.08s, backdrop-filter 0.3s ease 0.08s; }
+/* Arriving: the bar comes in, then the name slides in after it. */
+.is-scrolled .staggered-menu-header { transition: background 0.35s ease, border-color 0.35s ease, height 0.35s var(--ease), backdrop-filter 0.35s ease; }
+.is-scrolled .staggered-menu-header { height: 4.25rem; background: rgba(16, 15, 12, 0.72); border-color: var(--line); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.sm-logo > span:not(.wordmark-mark) { opacity: 0; transform: translateX(-6px); transition: opacity 0.14s ease, transform 0s linear 0.14s; }
+.is-scrolled .sm-logo > span:not(.wordmark-mark) { opacity: 1; transform: none; transition: opacity 0.35s ease 0.12s, transform 0.45s var(--ease) 0.12s; }
+[data-open="true"] .sm-logo > span:not(.wordmark-mark) { opacity: 1; transform: none; }
+[data-open="true"].is-scrolled .staggered-menu-header, .is-scrolled[data-open="true"] .staggered-menu-header { background: transparent; border-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+@media (max-width: 740px) { .is-scrolled .staggered-menu-header { height: 3.75rem; min-height: 3.75rem; } }
+
+/* Contact: each row's hover fills the whole row, edge to edge. */
+.contact-methods.border-glow { padding: 0; }
+.contact-methods a { position: relative; padding: 1.2rem 1.5rem; transition: background 0.3s ease; }
+.contact-methods a:hover { padding: 1.2rem 1.5rem; background: rgba(214, 183, 123, 0.09); }
+.contact-methods a:last-child { border-bottom: 0; }
+.contact-methods a > span:last-child { transition: transform 0.3s var(--ease); }
+.contact-methods a:hover > span:last-child { transform: translate(3px, -3px); }
+.contact-methods a[download]:hover > span:last-child { transform: translateY(3px); }
+@media (max-width: 480px) { .contact-methods a, .contact-methods a:hover { padding: 1rem 1.1rem; } }
+
+/* Disclosures: hover state, turning icon, and a height animation (main.js). */
+.demo-disclosure summary, .evidence-disclosure summary { list-style: none; transition: color 0.25s, background 0.25s; }
+.demo-disclosure summary::-webkit-details-marker, .evidence-disclosure summary::-webkit-details-marker { display: none; }
+.demo-disclosure summary:hover { background: rgba(214, 183, 123, 0.08); }
+.evidence-disclosure summary:hover { color: var(--ink); }
+.demo-disclosure summary > span, .evidence-disclosure summary > span { display: inline-block; transition: transform 0.35s var(--ease); }
+.demo-disclosure[open] summary > span { transform: rotate(90deg); }
+.evidence-disclosure[open] summary > span { transform: rotate(45deg); }
+details.is-animating { overflow: hidden; }
+
+/* GlareHover (React Bits, ported to plain JS in effects.js). */
+.glare-host { position: relative; isolation: isolate; }
+.glare-hover__glare { position: absolute; inset: 0; z-index: 3; overflow: hidden; border-radius: inherit; opacity: 0; mix-blend-mode: var(--gh-blend, screen); pointer-events: none; }
+.glare-hover__band { position: absolute; top: 50%; left: 50%; background: var(--gh-glare); will-change: transform; }
+.glare-hover__rim { position: absolute; inset: 0; padding: 1px; border-radius: inherit; overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0); -webkit-mask-clip: content-box, border-box; -webkit-mask-composite: xor;
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0); mask-clip: content-box, border-box; mask-composite: exclude; }
+.glare-hover__band--rim { background: var(--gh-rim); }
+
+/* "What works & what I learned": full width from the start, so its lines
+   never jump between a short and a long width when it opens or closes. */
+.evidence-disclosure { display: block; width: 100%; align-self: stretch; }
