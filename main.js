@@ -452,18 +452,18 @@
   function setupASCII() {
     if (!window.startGradientASCII) return;
     window.startGradientASCII(document.querySelector('#ascii-root'), {
-      // React Bits GradientASCII defaults, in the site's warm palette:
+      // React Bits GradientASCII, toned down to a background texture, in the site's warm palette:
       // edge of the shadow -> brightest point (brass, cream, pale gold, deep brass).
       colors: ['#5e4626', '#e9d8b4', '#d9b878', '#a8803f'],
       shape: 'horizon',
       characters: ' =+xX0S8#@',
       cellSize: 18,
-      density: 0.8,
-      glyphOpacity: 0.85,
-      gradientOpacity: 0.5,
-      glow: 0.2,
+      density: 0.65,
+      glyphOpacity: 0.55,
+      gradientOpacity: 0.35,
+      glow: 0.08,
       depthOfField: 0,
-      flicker: 0.2,
+      flicker: 0.08,
       softness: 0.5,
       scale: 1,
       flow: 0.5,

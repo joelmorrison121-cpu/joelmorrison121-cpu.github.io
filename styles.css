@@ -541,3 +541,29 @@ a.hero-note:hover p, a.hero-note:focus-visible p { color: var(--brass-light); }
   .results-row { grid-template-columns: 6.5rem 1fr 4rem; gap: 0.6rem; font-size: 0.8rem; }
 }
 .footer-inner { flex-wrap: wrap; padding-block: 1rem; }
+
+/* ---------------------------------------------------------------------------
+   Readability pass: no label below 12px, calmer letter-spacing, larger small
+   print, and a darker wash behind the hero text so the ASCII stays texture.
+   --------------------------------------------------------------------------- */
+#ascii-root::after { background: linear-gradient(90deg, rgba(16, 15, 12, 0.6) 0%, rgba(16, 15, 12, 0.3) 50%, rgba(16, 15, 12, 0.08) 100%); }
+
+.header-context, .sm-panel-number, .sm-socials-title, .eyebrow, .hero-meta, .button, .text-link,
+.note-index, .hero-note .note-index, .scroll-cue, .section-index, .facts dt, .art-topline, .art-bottomline,
+.project-state, .project-number, .tag-list li, .skill-index, .experience-type, .contact-kicker,
+.contact-methods small, .back-to-top, .skill-evidence li > span, .education-record h4,
+.hackathon-projects .project-state, .discipline-ribbon span {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+.footer-inner p, .footer-build { font-size: 0.85rem; }
+.project-capture figcaption { font-size: 0.85rem; line-height: 1.6; }
+.demo-disclosure summary, .evidence-disclosure summary { font-size: 0.88rem; }
+.demo-disclosure p { font-size: 0.82rem; }
+.evidence-disclosure p { font-size: 0.9rem !important; line-height: 1.7; }
+.project-description, .hackathon-projects p:not(.project-state) { font-size: 0.95rem; }
+
+.cert-line { margin: 1.5rem 0 0 calc(24% + 2rem); padding-top: 1.2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.92rem; }
+.cert-line strong { color: var(--ink); font-weight: 500; }
+.cert-line a { color: var(--brass-light); }
+@media (max-width: 1050px) { .cert-line { margin-left: 0; } }
