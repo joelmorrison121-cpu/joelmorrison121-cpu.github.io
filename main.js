@@ -499,8 +499,8 @@
   enhance('Disclosure links', setupDisclosures);
   enhance('Click sparks', setupClickSpark);
   enhance('Small typed labels', () => {
-    typeLabel(document.querySelector('#hero-type-kicker'), ['Dublin · Software', 'Building web & AI', 'DCU · Redbrick'], 350);
-    typeLabel(document.querySelector('#hero-type-meta'), ['Year 2 · DCU · Class of 2029', 'Python · Web development · AI', 'Open to work opportunities'], 900);
+    typeLabel(document.querySelector('#hero-type-kicker'), ['Dublin · Computer Science', 'Python · Machine learning', 'DCU · Redbrick'], 350);
+    typeLabel(document.querySelector('#hero-type-meta'), ['Year 2 · DCU · Class of 2029', 'Open to summer 2027 internships'], 900);
   });
   enhance('First-name animation', () => techName(document.querySelector('.hero-name-line.first')));
   enhance('Surname animation', () => techName(document.querySelector('.hero-name-line.last')));
