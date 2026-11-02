@@ -80,8 +80,7 @@
     { selector: '.contact-methods a', opacity: 0.22, size: 26, playOnce: true, group: 'contact', groupCooldown: 1400 },
     { selector: '#crash-course', opacity: 0.16, size: 22, playOnce: true, rim: false },
     { selector: '.hackathon-projects article', opacity: 0.16, size: 26, playOnce: true },
-    { selector: '.demo-disclosure summary', opacity: 0.3, size: 30, playOnce: true },
-    { selector: 'a.hero-note', opacity: 0.25, size: 40, playOnce: true }
+    { selector: '.demo-disclosure summary', opacity: 0.3, size: 30, playOnce: true }
   ];
   var GLARE_COLOR = '#fff2d8';
   // A glare can't replay on the same element for this long (ms). Targets with a

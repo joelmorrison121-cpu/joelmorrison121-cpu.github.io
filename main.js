@@ -550,10 +550,74 @@
         }
       });
     }, { threshold: 0.08 });
-    document.querySelectorAll('.section-heading, .featured-project, .skill-evidence').forEach(element => {
+    document.querySelectorAll('.section-heading, .featured-project').forEach(element => {
       element.classList.add('reveal-ready');
       observer.observe(element);
     });
+  }
+
+  // -------------------------------------------------------------------------
+  // SCROLL ANIMATION (after React Bits AnimatedContent, without GSAP).
+  //  * Lists build row by row as they scroll into view.
+  //  * The Crash Course chart's bars grow to their values.
+  // Nothing is hidden without JavaScript, with reduced motion, or if it is
+  // already on screen when the page loads. Edit the groups here.
+  // -------------------------------------------------------------------------
+  const STAGGER_GROUPS = [
+    { container: '.skill-evidence', items: ':scope > li' },
+    { container: '.experience-list', items: ':scope > .experience-item' },
+    { container: '.hackathon-projects', items: ':scope > article' },
+    { container: '.contact-methods', items: ':scope > a' },
+    { container: '.facts', items: ':scope > div' },
+  ];
+  function setupStaggers() {
+    if (motionQuery.matches || !('IntersectionObserver' in window) || !Element.prototype.animate) return;
+    const ease = 'cubic-bezier(0.22, 1, 0.36, 1)';
+    const onScreen = element => element.getBoundingClientRect().top < window.innerHeight * 0.9;
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        const play = entry.target.revealPlay;
+        if (play) play();
+      });
+    }, { threshold: 0.12 });
+
+    STAGGER_GROUPS.forEach(group => {
+      document.querySelectorAll(group.container).forEach(container => {
+        if (onScreen(container)) return;
+        const items = [...container.querySelectorAll(group.items)];
+        items.forEach(item => item.classList.add('pre-reveal'));
+        container.revealPlay = () => items.forEach((item, index) => {
+          item.classList.remove('pre-reveal');
+          item.animate(
+            [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }],
+            { duration: 650, delay: index * 75, easing: ease, fill: 'backwards' }
+          );
+        });
+        observer.observe(container);
+      });
+    });
+
+    const chart = document.querySelector('.results-chart');
+    if (chart && !onScreen(chart)) {
+      const bars = [...chart.querySelectorAll('.results-bar')];
+      chart.classList.add('bars-pending');
+      chart.revealPlay = () => {
+        chart.classList.remove('bars-pending');
+        bars.forEach((bar, index) => {
+          bar.querySelector('b')?.animate(
+            [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }],
+            { duration: 900, delay: 200 + index * 160, easing: ease, fill: 'backwards' }
+          );
+          bar.querySelector('em')?.animate(
+            [{ opacity: 0 }, { opacity: 1 }],
+            { duration: 400, delay: 650 + index * 160, easing: 'ease-out', fill: 'backwards' }
+          );
+        });
+      };
+      observer.observe(chart);
+    }
   }
 
   enhance('Navigation', setupMenu);
@@ -570,4 +634,5 @@
   enhance('Surname animation', () => techName(document.querySelector('.hero-name-line.last')));
   enhance('Gradient ASCII', setupASCII);
   enhance('Section entrances', setupReveals);
+  enhance('Scroll animation', setupStaggers);
 })();

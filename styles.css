@@ -640,3 +640,36 @@ details.is-animating { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .contact-methods a > span { transition: none; }
 }
+
+/* Hero, right column: folder sits higher, the main buttons sit under it,
+   then the latest-result note. On phones the buttons come straight after
+   the intro text instead (see the 740px block below). */
+.hero-aside { gap: 1.6rem; align-self: start; }
+.folder-scene { min-height: 250px; }
+.hero-aside-actions { justify-content: center; margin-top: 0; gap: 1.6rem; }
+@media (max-width: 740px) {
+  .hero-aside { flex-wrap: wrap; align-self: stretch; }
+  .hero-aside-actions { order: -1; width: 100%; justify-content: flex-start; }
+}
+@media (min-width: 741px) {
+  /* On tall screens, centre the hero block in the space instead of leaving it top-heavy. */
+  .hero-content { flex: 1; display: flex; flex-direction: column; }
+  .hero-layout { margin-block: auto; padding-block: 1rem; }
+}
+
+/* Scroll animation (main.js setupStaggers): items wait hidden only until their
+   list scrolls into view. Bars grow from the left. */
+.pre-reveal { opacity: 0; }
+.results-bar b { transform-origin: left center; }
+.bars-pending .results-bar b { transform: scaleX(0); }
+.bars-pending .results-bar em { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .pre-reveal { opacity: 1; } .bars-pending .results-bar b { transform: none; } .bars-pending .results-bar em { opacity: 1; } }
+
+/* CV link in the header, beside Menu. Hidden while the menu is open (the
+   menu lists it with the other links). Opens the PDF in a new tab. */
+.sm-cv { margin-left: auto; margin-right: 2.2rem; padding: 0.35rem 0; border-bottom: 1px solid var(--brass); color: var(--ink); font: 500 0.76rem/1 var(--font-body); letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.25s, border-color 0.25s, opacity 0.3s; }
+.sm-cv > span { display: inline-block; margin-left: 0.3rem; transition: transform 0.3s var(--ease); }
+.sm-cv:hover { color: var(--brass-light); border-color: var(--brass-light); }
+.sm-cv:hover > span { transform: translate(2px, -2px); }
+[data-open="true"] .sm-cv { opacity: 0; pointer-events: none; }
+@media (max-width: 740px) { .sm-cv { margin-right: 1.3rem; } }
