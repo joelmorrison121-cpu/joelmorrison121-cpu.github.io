@@ -65,5 +65,6 @@ Project source code lives in its own repositories. This repository contains the 
 | `main.js` | Menu, menu hover previews, click sparks, typed microcopy, ASCII background settings (`setupASCII()`) |
 | `previews/` | The six cards shown when hovering the menu links (360×232, 2× WebP) |
 | `gradient-ascii.js` | WebGL2 ASCII gradient background, with a static fallback |
+| `effects.js` | Mouse effects: BorderGlow on `[data-border-glow]` and GlareHover (targets listed in `GLARE_TARGETS`) |
 | `og-image.png` | Preview image used when the URL is shared |
 | `crash-course-source.zip` | Crash Course source, built from the [crash-course](https://github.com/joelmorrison121-cpu/crash-course) `v2.1` tag |
