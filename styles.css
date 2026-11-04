@@ -673,3 +673,33 @@ details.is-animating { overflow: hidden; }
 .sm-cv:hover > span { transform: translate(2px, -2px); }
 [data-open="true"] .sm-cv { opacity: 0; pointer-events: none; }
 @media (max-width: 740px) { .sm-cv { margin-right: 1.3rem; } }
+
+/* CV link: the underline is drawn, not a border, so it can retract into the
+   arrow once the header bar appears; the arrow then takes over as the cue. */
+.sm-cv { position: relative; border-bottom: 0; padding-bottom: 0.45rem; }
+.sm-cv::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--brass); transform-origin: right center; transition: transform 0.45s var(--ease), background 0.25s; }
+.sm-cv:hover::after { background: var(--brass-light); }
+.sm-cv > span { transition: transform 0.45s var(--ease), color 0.3s; }
+.is-scrolled .sm-cv::after { transform: scaleX(0); }
+.is-scrolled .sm-cv > span { color: var(--brass-light); transform: translate(1px, -1px) scale(1.25); }
+.is-scrolled .sm-cv:hover > span { transform: translate(3px, -3px) scale(1.25); }
+.is-scrolled .sm-cv:hover::after { transform: scaleX(1); }
+.hero-subline { text-wrap: balance; }
+
+/* Polish pass ---------------------------------------------------------------- */
+/* Experience rows aren't links, so they no longer show a link arrow. */
+.experience-item { grid-template-columns: 24% 1fr; }
+@media (max-width: 740px) { .experience-item { grid-template-columns: 1fr; } }
+
+/* Crash Course card: the chart sits in the middle of its column, not at the top
+   with a gap underneath. */
+@media (min-width: 1051px) { .results-capture { justify-content: center; } }
+
+/* Footer: name and location read as one line. */
+.footer-location { margin-left: 0.35rem; }
+
+/* Phones: the latest-result note gets the full width under the folder. */
+@media (max-width: 740px) {
+  .hero-aside { justify-content: center; }
+  .hero-note { width: 100%; margin-top: 0.5rem; }
+}
